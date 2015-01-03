@@ -123,7 +123,11 @@
             break;
 
         case NSFetchedResultsChangeUpdate: {
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            if ([self.delegate respondsToSelector:@selector(tableViewDataSource:wantsToReloadRowIndexPath:)]) {
+                [self.delegate tableViewDataSource:self wantsToReloadRowIndexPath:indexPath];
+            } else {
+                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
             break;
         }
 

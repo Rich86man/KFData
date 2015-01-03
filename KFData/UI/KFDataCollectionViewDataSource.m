@@ -216,7 +216,11 @@
                             break;
 
                         case NSFetchedResultsChangeUpdate:
-                            [collectionView reloadItemsAtIndexPaths:indexPaths];
+                            if ([self.delegate respondsToSelector:@selector(collectionViewDataSource:wantsToReloadRowIndexPaths:)]) {
+                                [self.delegate collectionViewDataSource:self wantsToReloadRowIndexPaths:indexPaths];
+                            } else {
+                                [collectionView reloadItemsAtIndexPaths:indexPaths];
+                            }
                             break;
 
                         case NSFetchedResultsChangeMove: {

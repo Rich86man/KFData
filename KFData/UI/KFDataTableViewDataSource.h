@@ -17,6 +17,9 @@
 @class KFDataTableViewDataSource;
 @class KFObjectManager;
 
+@protocol KFDataTableViewDataSoureDelegate;
+
+
 
 /** KFDataTableViewDataSource is a table view data source for dealing with a
  fetch request. It handles updating the table view and also handles deletion
@@ -26,7 +29,7 @@
  */
 
 @interface KFDataTableViewDataSource : NSObject <UITableViewDataSource, NSFetchedResultsControllerDelegate>
-
+@property (weak, nonatomic) id <KFDataTableViewDataSoureDelegate> delegate;
 /// The table view the data source was initialized with
 @property (nonatomic, strong, readonly) UITableView *tableView;
 /// The managed object context the data source was initialized with
@@ -87,5 +90,12 @@
                        comparator:(NSComparator)comparator;
 
 @end
+
+
+@protocol KFDataTableViewDataSoureDelegate <NSObject>
+@optional
+- (void)tableViewDataSource:(KFDataTableViewDataSource *)dataSource wantsToReloadRowIndexPath:(NSIndexPath *)indexPath;
+@end
+
 
 #endif

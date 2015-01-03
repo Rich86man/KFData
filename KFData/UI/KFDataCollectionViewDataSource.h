@@ -22,7 +22,11 @@
  overide UICollectionViewDataSource methods you want to implement.
  Such as `collectionView:cellForItemAtIndexPath:` */
 
+@protocol KFDataCollectionViewDataSourceDelegate;
+
 @interface KFDataCollectionViewDataSource : NSObject <UICollectionViewDataSource, NSFetchedResultsControllerDelegate>
+
+@property (weak, nonatomic) id <KFDataCollectionViewDataSourceDelegate> delegate;
 
 /// The collection view the data source was initialized with
 @property (nonatomic, strong, readonly) UICollectionView *collectionView;
@@ -63,5 +67,11 @@
 - (id <NSFetchedResultsSectionInfo>)sectionInfoForSection:(NSUInteger)section;
 
 @end
+
+@protocol KFDataCollectionViewDataSourceDelegate <NSObject>
+@optional
+- (void)collectionViewDataSource:(KFDataCollectionViewDataSource *)dataSource wantsToReloadRowIndexPaths:(NSArray *)indexPaths;
+@end
+
 
 #endif
